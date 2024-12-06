@@ -1,0 +1,44 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="_shared/_layout">
+
+<title layout:fragment="title">Product list</title>
+
+<div layout:fragment="content">
+<h1>Products list</h1>
+    <div class="content">
+              <table class="display table table-bordered" style="width:800px">
+                <thead class="text-center">
+                <tr>
+                  <th class="text-right">Id</th>
+                  <th class="text-left">Name</th>
+                  <th class="text-left">Weight [kg]</th>
+                  <th class="text-left">Category</th>
+                  <th class="text-left">Price [PLN]</th>
+                  <th class="text-center" colspan="3">Action</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${productList}">
+                  <td class="text-right"th:text= "${product.getId()}"></td>
+                  <td class="text-left"th:text= "${product.getName()}"></td>
+                  <td class="text-center" th:text= "${product.getWeight()}"></td>
+                  <td class="text-center" th:text= "${product.getCategory()}"></td>
+                  <td class="text-left" th:text= "${product.getPrice()}"></td>
+                  <td><a class="btn btn-primary" th:href="@{/product/{productId}/details(productId=${product.getId()})}">details</a></td>
+                  <td><a class="btn btn-primary" th:href="@{/product/{productId}/edit(productId=${product.getId()})}">edit</a></td>
+                  <td>
+                    <form th:action="@{/product/remove}" th:object="${product}" method="post">
+                        <input type="hidden" name="id" th:value="${product.id}" />
+                        <button type="submit" class="btn btn-danger">Remove</button>
+                    </form>
+                  </td>
+                </tr>
+
+                </tbody>
+              </table>
+    </div>
+</div>
+</html>

@@ -1,0 +1,48 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="_shared/_layout">
+
+<title layout:fragment="title">Edit student form</title>
+
+<div layout:fragment="content">
+  <h1>Edit product</h1>
+  <form action="#" th:action="@{/product/edit}" th:object="${product}" method="post">
+    <table class="table table-striped table-bordered" style="width:800px">
+      <tbody>
+      <tr>
+        <td><p>Id: </p></td>
+        <td><input type="text" readonly th:field="*{id}" /></td>
+      </tr>
+      <tr>
+        <td><p>Name: </p></td>
+        <td><input type="text" th:field="*{name}" /></td>
+      </tr>
+      <tr>
+        <td><p>Weight [kg]: </p></td>
+        <td><input type="number" step="0.01" th:field="*{weight}" /></td>
+      </tr>
+      <tr>
+        <td><p>Category: </p></td>
+        <td><input type="text" th:field="*{category}" /></td>
+      </tr>
+      <tr>
+        <td><p>Price [PLN]: </p></td>
+        <td><input type="number" step="0.01" th:field="*{price}" /></td>
+      </tr>
+      <tr>
+        <td><p>Expiry Date: </p></td>
+        <td><input type="date" th:field="*{expiryDate}" /></td>
+      </tr>
+      <tr>
+        <td><p>Description</p></td>
+        <td><input type="text" th:field="*{description}" /></td>
+      </tr>
+      </tbody>
+    </table>
+    <p><input type="submit" value="Edit" /> <input type="reset" value="Reset" /></p>
+  </form>
+</div>
+
+</html>
