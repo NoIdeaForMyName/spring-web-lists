@@ -25,6 +25,14 @@
                 <td class="text-left" th:text= "${product.getProductWeight()}"></td>
                 <td class="text-center" th:text= "${product.getProductPrice()}"></td>
                 <td class="text-center" th:text= "${product.getProductCategory().getCategoryName()}"></td>
+
+                <td><a class="btn btn-primary" th:href="@{/product/{productId}/edit(productId=${product.getProductId()})}">edit</a></td>
+
+                <td>
+                    <form th:action="@{/product/remove(productId=${product.getProductId()})}" method="post">
+                        <input type="submit" value="remove" class="btn btn-danger" />
+                    </form>
+                </td>
             </tr>
             </tbody>
         </table>

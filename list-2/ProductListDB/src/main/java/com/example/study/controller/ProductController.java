@@ -5,12 +5,10 @@ import com.example.study.entity.Product;
 import com.example.study.service.ProductListDBService;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.ModelAttribute;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
+import java.util.Optional;
 
 @Controller
 @RequestMapping("/product")
@@ -43,6 +41,35 @@ public class ProductController {
         System.out.print("POST WYKONANY");
         System.out.println(product);
         productService.getProductRepository().save(product);
+        return "redirect:/product/";
+    }
+
+    @GetMapping("/{productId}/edit")
+    public String edit(@PathVariable Long productId, Model model) {
+        model.addAttribute("product", productService.getProductRepository().findById(productId));
+        model.addAttribute("categoryList", productService.getCategoryRepository().findAll());
+        return "product/edit";
+    }
+
+    @PostMapping("/edit")
+    public String edit(@ModelAttribute("product") Product product) {
+        Optional<Product> toEdit = productService.getProductRepository().findById(product.getProductId());
+        if (toEdit.isPresent()) {
+            Product existingProduct = toEdit.get();
+            existingProduct.setProductName(product.getProductName());
+            existingProduct.setProductPrice(product.getProductPrice());
+            existingProduct.setProductCategory(product.getProductCategory());
+            productService.getProductRepository().save(existingProduct);
+        }
+        return "redirect:/product/";
+    }
+
+    @PostMapping("/remove")
+    public String remove(@RequestParam Long productId) {
+        Optional<Product> toRemove = productService.getProductRepository().findById(productId);
+        if(toRemove.isPresent()){
+            productService.getProductRepository().deleteById(productId);
+        }
         return "redirect:/product/";
     }
 }
