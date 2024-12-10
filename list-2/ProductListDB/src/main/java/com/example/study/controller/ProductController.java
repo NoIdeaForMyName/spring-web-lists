@@ -39,7 +39,7 @@ public class ProductController {
     @PostMapping("/add")
     public String add(@ModelAttribute("product") Product product) {
         product.setProductId(0); // protection against explicit ID identification
-        if (product.getProductCategory() != null) {
+        if (productService.isProductEntityInsertable(product) && product.getProductCategory() != null) {
             productService.getProductRepository().save(product);
         }
         return "redirect:/product/";
@@ -55,7 +55,7 @@ public class ProductController {
     @PostMapping("/edit")
     public String edit(@ModelAttribute("product") Product product) {
         Optional<Product> toEdit = productService.getProductRepository().findById(product.getProductId());
-        if (toEdit.isPresent()) {
+        if (productService.isProductEntityInsertable(product) && toEdit.isPresent()) {
             Product existingProduct = toEdit.get();
             existingProduct.setProductName(product.getProductName());
             existingProduct.setProductPrice(product.getProductPrice());
@@ -73,4 +73,15 @@ public class ProductController {
         }
         return "redirect:/product/";
     }
+
+    @GetMapping("/{productId}/details")
+    String displayProductDetails(@PathVariable Long productId, Model model) {
+        Optional<Product> productOptional = productService.getProductRepository().findById(productId);
+        if (productOptional.isPresent()) {
+            model.addAttribute("product", productOptional.get());
+            return "product/details";
+        }
+        return "redirect:/product/";
+    }
+
 }

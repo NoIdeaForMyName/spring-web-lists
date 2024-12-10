@@ -36,7 +36,7 @@ public class CategoryController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute Category category) {
-        if (productService.getCategoryRepository().findByCategoryCode(category.getCategoryCode()).isEmpty()) {
+        if (productService.isCategoryEntityInsertable(category) && productService.getCategoryRepository().findByCategoryCode(category.getCategoryCode()).isEmpty()) {
             category.setCategoryId(0);
             productService.getCategoryRepository().save(category);
         }
@@ -53,7 +53,7 @@ public class CategoryController {
     public String edit(@ModelAttribute Category category) {
         Optional<Category> toEdit = productService.getCategoryRepository().findById(category.getCategoryId());
         Optional<Category> sameCodeCategory = productService.getCategoryRepository().findByCategoryCode(category.getCategoryCode());
-        if (toEdit.isPresent() && (sameCodeCategory.isEmpty() || sameCodeCategory.get().getCategoryCode().equals(toEdit.get().getCategoryCode()))) {
+        if (productService.isCategoryEntityInsertable(category) && toEdit.isPresent() && (sameCodeCategory.isEmpty() || sameCodeCategory.get().getCategoryCode().equals(toEdit.get().getCategoryCode()))) {
             Category toEditCategory = toEdit.get();
             toEditCategory.setCategoryCode(category.getCategoryCode());
             toEditCategory.setCategoryName(category.getCategoryName());

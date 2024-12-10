@@ -2,6 +2,8 @@ package com.example.study.service;
 
 
 //import com.example.study.optionModel.IdStringModel;
+import com.example.study.entity.Category;
+import com.example.study.entity.Product;
 import com.example.study.repository.ProductRepository;
 import com.example.study.repository.CategoryRepository;
 import lombok.Getter;
@@ -15,6 +17,14 @@ public class ProductListDBService {
     private ProductRepository productRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+
+    public boolean isProductEntityInsertable(Product product) {
+        return !product.getProductName().isEmpty();
+    }
+
+    public boolean isCategoryEntityInsertable(Category category) {
+        return !category.getCategoryCode().isEmpty() && !category.getCategoryName().isEmpty();
+    }
 
 //    public List<IdStringModel> getTeacherOptions(){
 //        List<IdStringModel> result=new ArrayList<>();
