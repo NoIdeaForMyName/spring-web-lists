@@ -36,8 +36,10 @@ public class CategoryController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute Category category) {
-        category.setCategoryId(0);
-        productService.getCategoryRepository().save(category);
+        if (productService.getCategoryRepository().findByCategoryCode(category.getCategoryCode()).isEmpty()) {
+            category.setCategoryId(0);
+            productService.getCategoryRepository().save(category);
+        }
         return "redirect:/category/";
     }
 
@@ -50,7 +52,8 @@ public class CategoryController {
     @PostMapping("/edit")
     public String edit(@ModelAttribute Category category) {
         Optional<Category> toEdit = productService.getCategoryRepository().findById(category.getCategoryId());
-        if (toEdit.isPresent()) {
+        Optional<Category> sameCodeCategory = productService.getCategoryRepository().findByCategoryCode(category.getCategoryCode());
+        if (toEdit.isPresent() && (sameCodeCategory.isEmpty() || sameCodeCategory.get().getCategoryCode().equals(toEdit.get().getCategoryCode()))) {
             Category toEditCategory = toEdit.get();
             toEditCategory.setCategoryCode(category.getCategoryCode());
             toEditCategory.setCategoryName(category.getCategoryName());
