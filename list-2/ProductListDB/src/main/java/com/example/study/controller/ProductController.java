@@ -38,9 +38,10 @@ public class ProductController {
 
     @PostMapping("/add")
     public String add(@ModelAttribute("product") Product product) {
-        System.out.print("POST WYKONANY");
-        System.out.println(product);
-        productService.getProductRepository().save(product);
+        product.setProductId(0); // protection against explicit ID identification
+        if (product.getProductCategory() != null) {
+            productService.getProductRepository().save(product);
+        }
         return "redirect:/product/";
     }
 
