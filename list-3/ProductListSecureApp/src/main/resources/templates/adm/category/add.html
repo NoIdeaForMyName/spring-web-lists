@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org en"
+      layout:decorate="_shared/_layout">
+<body>
+<div layout:fragment="content">
+<h1>Add a new category</h1>
+<form action="#" th:action="@{/category/add}" th:object="${category}" method="post">
+  <p>Code: <input type="text" th:field="*{categoryCode}" /></p>
+  <p>Name: <input type="text" th:field="*{categoryName}" /></p>
+  <p><input type="submit" value="Add" /> <input type="reset" value="Reset" /></p>
+</form>
+</div>
+</body>
+</html>
