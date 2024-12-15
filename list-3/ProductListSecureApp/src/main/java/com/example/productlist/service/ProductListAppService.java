@@ -7,17 +7,27 @@ import com.example.productlist.entity.Category;
 import com.example.productlist.entity.Product;
 import com.example.productlist.repository.CategoryRepository;
 import com.example.productlist.repository.ProductRepository;
+import lombok.Data;
 import lombok.Getter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 @Service
-@Getter
+
 public class ProductListAppService {
     @Autowired
     private ProductRepository productRepository;
     @Autowired
     private CategoryRepository categoryRepository;
+
+    // Ręczne gettery
+    public ProductRepository getProductRepository() {
+        return productRepository;
+    }
+
+    public CategoryRepository getCategoryRepository() {
+        return categoryRepository;
+    }
 
     public boolean isProductEntityInsertable(Product product) {
         return !product.getProductName().isEmpty();

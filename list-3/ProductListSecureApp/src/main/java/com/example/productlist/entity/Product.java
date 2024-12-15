@@ -8,7 +8,6 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 @Entity
-@Data
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -26,4 +25,44 @@ public class Product {
     @ManyToOne
     @JoinColumn(name="fk_product_categoryId", nullable = false)
     private Category productCategory;
+
+    public long getProductId() {
+        return productId;
+    }
+
+    public void setProductId(long productId) {
+        this.productId = productId;
+    }
+
+    public String getProductName() {
+        return productName;
+    }
+
+    public void setProductName(String productName) {
+        this.productName = productName;
+    }
+
+    public float getProductWeight() {
+        return productWeight;
+    }
+
+    public void setProductWeight(float productWeight) {
+        this.productWeight = productWeight;
+    }
+
+    public float getProductPrice() {
+        return productPrice;
+    }
+
+    public void setProductPrice(float productPrice) {
+        this.productPrice = productPrice;
+    }
+
+    public Category getProductCategory() {
+        return productCategory;
+    }
+
+    public void setProductCategory(Category productCategory) {
+        this.productCategory = productCategory;
+    }
 }

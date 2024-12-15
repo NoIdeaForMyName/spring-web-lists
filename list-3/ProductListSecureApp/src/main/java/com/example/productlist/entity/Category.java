@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 import jakarta.persistence.*;
 
 @Entity
-@Data
+
 @NoArgsConstructor
 @AllArgsConstructor
 @Builder
@@ -21,7 +21,31 @@ public class Category {
     @Column(nullable = false, length = 30)
     private String categoryName;
 
-//    @OneToMany(
+    public long getCategoryId() {
+        return categoryId;
+    }
+
+    public void setCategoryId(long categoryId) {
+        this.categoryId = categoryId;
+    }
+
+    public String getCategoryCode() {
+        return categoryCode;
+    }
+
+    public void setCategoryCode(String categoryCode) {
+        this.categoryCode = categoryCode;
+    }
+
+    public String getCategoryName() {
+        return categoryName;
+    }
+
+    public void setCategoryName(String categoryName) {
+        this.categoryName = categoryName;
+    }
+
+    //    @OneToMany(
 //            mappedBy = "productCategory"
 //    )
 //    private List<Product> productsOfCategory;

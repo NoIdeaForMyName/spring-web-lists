@@ -1,8 +1,14 @@
 package com.example.productlist.controller;
 
+import com.example.productlist.cart.Cart;
+import com.example.productlist.cart.CartItem;
+import com.example.productlist.cart.CartService;
 import com.example.productlist.entity.Category;
 import com.example.productlist.entity.Product;
 import com.example.productlist.service.ProductListAppService;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.springframework.security.web.csrf.CsrfToken;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.*;
@@ -14,11 +20,12 @@ import java.util.Optional;
 @RequestMapping("/user/product")
 public class UserProductController {
     private final ProductListAppService productService;
+    private final CartService cartService;
 
-    public UserProductController(ProductListAppService productService) {
+    public UserProductController(ProductListAppService productService, CartService cartService) {
         this.productService = productService;
+        this.cartService = cartService;
     }
-
 
     @GetMapping({"/index","","/"})
     public String home(Model model) {
@@ -35,6 +42,46 @@ public class UserProductController {
             return "user/product/details";
         }
         return "redirect:/user/product/";
+    }
+
+
+    @PostMapping("/add-to-cart")
+    public String addToCart(@RequestParam Long productId, @RequestParam(defaultValue = "1") int quantity,
+                            HttpServletRequest request, HttpServletResponse response) {
+        Cart cart = cartService.getCartFromCookies(request);
+        cart.addItem(productId, quantity);
+        cartService.saveCartToCookies(response, cart);
+        return "redirect:/user/product/index";
+    }
+
+    @GetMapping("/cart")
+    public String viewCart(Model model, HttpServletRequest request) {
+        Cart cart = cartService.getCartFromCookies(request);
+        List<CartItem> cartItems = cart.getItems();
+        List<Product> products = cartItems.stream()
+                .map(item -> productService.getProductRepository().findById(item.getProductId()).orElse(null))
+                .filter(product -> product != null)
+                .toList();
+
+
+        model.addAttribute("cart", cart);
+        model.addAttribute("products", products);
+        return "user/product/cart";
+    }
+
+
+    @PostMapping("/cart/remove")
+    public String removeFromCart(@RequestParam Long productId, HttpServletRequest request, HttpServletResponse response) {
+        Cart cart = cartService.getCartFromCookies(request);
+        cart.removeItem(productId);
+        cartService.saveCartToCookies(response, cart);
+        return "redirect:/user/product/cart";
+    }
+
+    @PostMapping("/cart/clear")
+    public String clearCart(HttpServletResponse response) {
+        cartService.clearCart(response);
+        return "redirect:/user/product/cart";
     }
 
 }
