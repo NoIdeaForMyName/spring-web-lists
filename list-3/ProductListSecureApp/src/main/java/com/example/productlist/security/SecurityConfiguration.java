@@ -24,15 +24,16 @@ public class SecurityConfiguration {
     public SecurityFilterChain securityFilterChain(HttpSecurity http) throws Exception {
         http
                 .authorizeHttpRequests(authorize -> authorize
-                        .requestMatchers("/adm").hasRole("ADMIN")
-                        .requestMatchers("/user").hasAnyRole("USER", "ADMIN")
+                        .requestMatchers("/adm/**").hasRole("ADMIN")
+                        .requestMatchers("/user/**").hasAnyRole("USER", "ADMIN")
                         .requestMatchers("/").permitAll()
                         .anyRequest()
                         .authenticated()
                 )
                 .formLogin(Customizer.withDefaults())
                 .logout((logout -> logout
-                        .permitAll()))
+                        .permitAll()
+                        .logoutSuccessUrl("/index")))
                 .csrf(csrf -> csrf
                         .disable());
         return http.build();
