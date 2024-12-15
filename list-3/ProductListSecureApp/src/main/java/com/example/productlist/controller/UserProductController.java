@@ -24,7 +24,7 @@ public class UserProductController {
     public String home(Model model) {
         List<Product> productList = productService.getProductRepository().findAll();
         model.addAttribute("productList", productList);
-        return "product/index";
+        return "user/product/index";
     }
 
     @GetMapping("/{productId}/details")
@@ -32,9 +32,9 @@ public class UserProductController {
         Optional<Product> productOptional = productService.getProductRepository().findById(productId);
         if (productOptional.isPresent()) {
             model.addAttribute("product", productOptional.get());
-            return "product/details";
+            return "user/product/details";
         }
-        return "redirect:/product/";
+        return "redirect:/user/product/";
     }
 
 }

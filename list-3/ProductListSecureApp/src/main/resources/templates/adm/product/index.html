@@ -2,10 +2,11 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org en"
-      layout:decorate="_shared/_layout_user">
+      layout:decorate="_shared/_layout_adm">
 <body>
 <div layout:fragment="content">
     <h1>Students list</h1>
+    <a class="btn btn-primary" href="/adm/product/add">Add product</a>
     <div class="content">
         <table class="display table table-bordered" style="width:800px">
             <thead class="text-center">
@@ -25,7 +26,15 @@
                 <td class="text-center" th:text= "${product.getProductPrice()}"></td>
                 <td class="text-center" th:text= "${product.getProductCategory().getCategoryName()}"></td>
 
-                <td><a class="btn btn-primary" th:href="@{/user/product/{productId}/details(productId=${product.getProductId()})}">details</a></td>
+                <td><a class="btn btn-primary" th:href="@{/adm/product/{productId}/edit(productId=${product.getProductId()})}">edit</a></td>
+
+                <td>
+                    <form th:action="@{/adm/product/remove(productId=${product.getProductId()})}" method="post">
+                        <input type="submit" value="remove" class="btn btn-danger" />
+                    </form>
+                </td>
+
+                <td><a class="btn btn-primary" th:href="@{/adm/product/{productId}/details(productId=${product.getProductId()})}">details</a></td>
 
             </tr>
             </tbody>

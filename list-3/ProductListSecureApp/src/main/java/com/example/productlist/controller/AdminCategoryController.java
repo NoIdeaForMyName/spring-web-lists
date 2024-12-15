@@ -24,14 +24,14 @@ public class AdminCategoryController {
     public String home(Model model) {
         List<Category> categoryList = productService.getCategoryRepository().findAll();
         model.addAttribute("categoryList", categoryList);
-        return "category/index";
+        return "adm/category/index";
     }
 
 
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("category", new Category() );
-        return "category/add";
+        return "adm/category/add";
     }
 
     @PostMapping("/add")
@@ -40,13 +40,13 @@ public class AdminCategoryController {
             category.setCategoryId(0);
             productService.getCategoryRepository().save(category);
         }
-        return "redirect:/category/";
+        return "redirect:/adm/category/";
     }
 
     @GetMapping("/{catId}/edit")
     public String edit(@PathVariable Long catId, Model model) {
         model.addAttribute("category", productService.getCategoryRepository().findById(catId));
-        return "category/edit";
+        return "adm/category/edit";
     }
 
     @PostMapping("/edit")
@@ -59,7 +59,7 @@ public class AdminCategoryController {
             toEditCategory.setCategoryName(category.getCategoryName());
             productService.getCategoryRepository().save(toEditCategory);
         }
-        return "redirect:/category/";
+        return "redirect:/adm/category/";
     }
 
     @PostMapping("/remove")
@@ -73,6 +73,6 @@ public class AdminCategoryController {
             }
             productService.getCategoryRepository().deleteById(catId);
         }
-        return "redirect:/category/";
+        return "redirect:/adm/category/";
     }
 }

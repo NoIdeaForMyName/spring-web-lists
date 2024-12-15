@@ -1,0 +1,25 @@
+
+<header th:fragment="header">
+  <nav class="navbar fixed-top navbar-expand-sm navbar-light bg-warning">
+    <div class="container">
+      <a href="/">ProductListDB</a>
+      <button type="button"
+              data-bs-toggle="collapse"
+              data-bs-target="#navbarMain"
+              class="navbar-toggler"
+              aria-controls="navbarMain"
+              aria-expanded="false"
+              aria-label="Toggle navigation"
+      >
+      </button>
+      <ul class="navbar-nav">
+        <li class="nav-item" >
+          <a href="/user/product/" class="nav-link">Regular User</a>
+        </li>
+        <li class="nav-item">
+          <a href="/adm/product/" class="nav-link">Admin</a>
+        </li>
+      </ul>
+    </div>
+  </nav>
+</header>

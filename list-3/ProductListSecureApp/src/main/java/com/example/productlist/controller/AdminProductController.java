@@ -19,12 +19,29 @@ public class AdminProductController {
         this.productService = productService;
     }
 
+    @GetMapping({"/index","","/"})
+    public String home(Model model) {
+        List<Product> productList = productService.getProductRepository().findAll();
+        model.addAttribute("productList", productList);
+        return "adm/product/index";
+    }
+
+    @GetMapping("/{productId}/details")
+    String displayProductDetails(@PathVariable Long productId, Model model) {
+        Optional<Product> productOptional = productService.getProductRepository().findById(productId);
+        if (productOptional.isPresent()) {
+            model.addAttribute("product", productOptional.get());
+            return "adm/product/details";
+        }
+        return "redirect:/adm/product/";
+    }
+
     @GetMapping("/add")
     public String add(Model model) {
         model.addAttribute("product", new Product() );
         List<Category> categoryList = productService.getCategoryRepository().findAll();
         model.addAttribute("categoryList", categoryList);
-        return "product/add";
+        return "adm/product/add";
     }
 
     @PostMapping("/add")
@@ -33,14 +50,14 @@ public class AdminProductController {
         if (productService.isProductEntityInsertable(product) && product.getProductCategory() != null) {
             productService.getProductRepository().save(product);
         }
-        return "redirect:/product/";
+        return "redirect:/adm/product/";
     }
 
     @GetMapping("/{productId}/edit")
     public String edit(@PathVariable Long productId, Model model) {
         model.addAttribute("product", productService.getProductRepository().findById(productId));
         model.addAttribute("categoryList", productService.getCategoryRepository().findAll());
-        return "product/edit";
+        return "adm/product/edit";
     }
 
     @PostMapping("/edit")
@@ -53,7 +70,7 @@ public class AdminProductController {
             existingProduct.setProductCategory(product.getProductCategory());
             productService.getProductRepository().save(existingProduct);
         }
-        return "redirect:/product/";
+        return "redirect:/adm/product/";
     }
 
     @PostMapping("/remove")
@@ -62,7 +79,7 @@ public class AdminProductController {
         if(toRemove.isPresent()){
             productService.getProductRepository().deleteById(productId);
         }
-        return "redirect:/product/";
+        return "redirect:/adm/product/";
     }
 
 }

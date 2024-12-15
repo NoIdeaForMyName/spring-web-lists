@@ -2,11 +2,11 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org en"
-      layout:decorate="_shared/_layout">
+      layout:decorate="_shared/_layout_adm">
 <body>
 <div layout:fragment="content">
   <h1>Category list</h1>
-  <a class="btn btn-primary" href="/category/add">Add category</a>
+  <a class="btn btn-primary" href="/adm/category/add">Add category</a>
 
   <div class="content">
     <table class="display table table-bordered" style="width:800px">
@@ -24,10 +24,10 @@
         <td class="text-left" th:text= "${category.getCategoryName()}"></td>
 
 <!--        <td><a class="btn btn-primary" th:href="@{/category/details(id=${student.id})}">details</a></td>-->
-        <td><a class="btn btn-primary" th:href="@{/category/{catId}/edit(catId=${category.getCategoryId()})}">edit</a></td>
+        <td><a class="btn btn-primary" th:href="@{/adm/category/{catId}/edit(catId=${category.getCategoryId()})}">edit</a></td>
 <!--        <td><a class="btn btn-danger" th:href="@{/category/remove(id=${category.getCategoryId()})}">remove</a></td>-->
         <td>
-          <form th:action="@{/category/remove(catId=${category.getCategoryId()})}" method="post">
+          <form th:action="@{/adm/category/remove(catId=${category.getCategoryId()})}" method="post">
             <input type="submit" value="remove" class="btn btn-danger" />
           </form>
         </td>

@@ -2,11 +2,11 @@
 <html lang="en"
       xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
       xmlns:th="http://www.thymeleaf.org en"
-      layout:decorate="_shared/_layout">
+      layout:decorate="_shared/_layout_adm">
 <body>
 <div layout:fragment="content">
     <h1>Edit category</h1>
-    <form action="#" th:action="@{/category/edit}" th:object="${category}" method="post">
+    <form action="#" th:action="@{/adm/category/edit}" th:object="${category}" method="post">
         <input type="hidden" th:field="*{categoryId}">
         <p>Code: <input type="text" th:field="*{categoryCode}" /></p>
         <p>Name: <input type="text" th:field="*{categoryName}" /></p>
