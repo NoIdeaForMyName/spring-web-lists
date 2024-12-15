@@ -5,7 +5,7 @@
       layout:decorate="_shared/_layout_user">
 <body>
 <div layout:fragment="content">
-    <h1>Students list</h1>
+    <h1>Product list</h1>
     <div class="content">
         <table class="display table table-bordered" style="width:800px">
             <thead class="text-center">
@@ -25,8 +25,14 @@
                 <td class="text-center" th:text= "${product.getProductPrice()}"></td>
                 <td class="text-center" th:text= "${product.getProductCategory().getCategoryName()}"></td>
 
-                <td><a class="btn btn-primary" th:href="@{/user/product/{productId}/details(productId=${product.getProductId()})}">details</a></td>
-
+                <td>
+                    <form th:action="@{/user/product/add-to-cart}" method="post" style="display:inline;">
+                        <input type="hidden" name="productId" th:value="${product.productId}" />
+                        <input type="hidden" name="quantity" value="1" />
+                        <button type="submit" class="btn btn-success btn-sm">Dodaj do Koszyka</button>
+                    </form>
+                    <a class="btn btn-primary" th:href="@{/user/product/{productId}/details(productId=${product.getProductId()})}">details</a>
+                </td>
             </tr>
             </tbody>
         </table>

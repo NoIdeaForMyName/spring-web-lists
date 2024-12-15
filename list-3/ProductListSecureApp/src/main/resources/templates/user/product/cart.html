@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html lang="en"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="_shared/_layout_user">
+
+<body>
+<div layout:fragment="content">
+    <h1>Twój Koszyk</h1>
+
+    <div th:if="${#lists.isEmpty(cart.items)}">
+        <p>Twój koszyk jest pusty.</p>
+        <a th:href="@{/user/product/index}" class="btn btn-primary">Przeglądaj Produkty</a>
+    </div>
+
+    <div th:unless="${#lists.isEmpty(cart.items)}">
+            <table class="table table-striped table-bordered">
+                <thead>
+                <tr>
+                    <th>Product Name</th>
+                    <th>Product Price</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="product : ${products}">
+                    <td th:text="${product.productName}">Nazwa Produktu</td>
+                    <td th:text="${product.productPrice}">Cena</td>
+
+                    <td>
+                        <form th:action="@{/user/product/cart/remove}" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" th:value="${product.productId}" />
+                            <button type="submit" class="btn btn-danger btn-sm">Usuń</button>
+                        </form>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+
+        <form th:action="@{/user/product/cart/clear}" method="post" class="mt-3">
+            <button type="submit" class="btn btn-warning">Wyczyść Koszyk</button>
+        </form>
+    </div>
+</div>
+</body>
+</html>
