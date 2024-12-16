@@ -2,6 +2,7 @@ package com.example.productlist.controller;
 
 import com.example.productlist.cart.Cart;
 import com.example.productlist.cart.CartItem;
+import com.example.productlist.cart.CartProduct;
 import com.example.productlist.cart.CartService;
 import com.example.productlist.entity.Category;
 import com.example.productlist.entity.Product;
@@ -58,14 +59,14 @@ public class UserProductController {
     public String viewCart(Model model, HttpServletRequest request) {
         Cart cart = cartService.getCartFromCookies(request);
         List<CartItem> cartItems = cart.getItems();
-        List<Product> products = cartItems.stream()
-                .map(item -> productService.getProductRepository().findById(item.getProductId()).orElse(null))
-                .filter(product -> product != null)
+        List<CartProduct> cartProducts = cartItems.stream()
+                .map(item -> new CartProduct(productService.getProductRepository().findById(item.getProductId()).orElse(null), item.getQuantity()))
+                .filter(cartProduct -> cartProduct != null)
                 .toList();
 
 
         model.addAttribute("cart", cart);
-        model.addAttribute("products", products);
+        model.addAttribute("cart_products", cartProducts);
         return "user/product/cart";
     }
 

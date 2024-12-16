@@ -1,5 +1,7 @@
 package com.example.productlist.cart;
 
+import com.example.productlist.entity.Product;
+
 import java.util.ArrayList;
 import java.util.List;
 
