@@ -17,18 +17,27 @@
             <table class="table table-striped table-bordered">
                 <thead>
                 <tr>
-                    <th>Product Name</th>
-                    <th>Product Price</th>
-                    <th>Product Quantity</th>
+                    <th>Nazwa Produktów</th>
+                    <th>Cena Produktów</th>
+                    <th>Ilość Produktów</th>
+                    <th>Akcje</th>
                 </tr>
                 </thead>
                 <tbody>
                 <tr th:each="cart_product : ${cart_products}">
-                    <td th:text="${cart_product.product.productName}">Nazwa Produktu</td>
-                    <td th:text="${cart_product.product.productPrice}">Cena</td>
-                    <td th:text="${cart_product.quantity}">Ilość</td>
+                    <td th:text="${cart_product.product.productName}"></td>
+                    <td th:text="${cart_product.product.productPrice}"></td>
+                    <td th:text="${cart_product.quantity}"></td>
 
                     <td>
+                        <form th:action="@{/user/product/cart/add-one}" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" th:value="${cart_product.product.productId}" />
+                            <button type="submit" class="btn btn-danger btn-sm">+</button>
+                        </form>
+                        <form th:action="@{/user/product/cart/remove-one}" method="post" style="display:inline;">
+                            <input type="hidden" name="productId" th:value="${cart_product.product.productId}" />
+                            <button type="submit" class="btn btn-danger btn-sm">-</button>
+                        </form>
                         <form th:action="@{/user/product/cart/remove}" method="post" style="display:inline;">
                             <input type="hidden" name="productId" th:value="${cart_product.product.productId}" />
                             <button type="submit" class="btn btn-danger btn-sm">Usuń</button>

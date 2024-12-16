@@ -19,18 +19,29 @@ public class Cart {
         this.items = items;
     }
 
-    public void addItem(Long productId, int quantity) {
+    public void addItem(Long productId) {
         for (CartItem item : items) {
             if (item.getProductId().equals(productId)) {
-                item.setQuantity(item.getQuantity() + quantity);
+                item.setQuantity(item.getQuantity() + 1);
                 return;
             }
         }
-        items.add(new CartItem(productId, quantity));
+        items.add(new CartItem(productId, 1));
     }
 
     public void removeItem(Long productId) {
         items.removeIf(item -> item.getProductId().equals(productId));
+    }
+
+    public void removeOne(Long productId) {
+        for (CartItem item: items) {
+            if (item.getProductId().equals(productId)) {
+                if (item.getQuantity() > 1)
+                    item.setQuantity(item.getQuantity()-1);
+                else
+                    items.remove(item);
+            }
+        }
     }
 
     public void clear() {

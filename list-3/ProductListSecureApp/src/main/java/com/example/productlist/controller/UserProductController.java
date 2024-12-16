@@ -45,14 +45,24 @@ public class UserProductController {
         return "redirect:/user/product/";
     }
 
+    public void handleAddToCart(Long productId, HttpServletRequest request, HttpServletResponse response) {
+        Cart cart = cartService.getCartFromCookies(request);
+        cart.addItem(productId);
+        cartService.saveCartToCookies(response, cart);
+    }
 
     @PostMapping("/add-to-cart")
-    public String addToCart(@RequestParam Long productId, @RequestParam(defaultValue = "1") int quantity,
+    public String addToCart(@RequestParam Long productId,
                             HttpServletRequest request, HttpServletResponse response) {
-        Cart cart = cartService.getCartFromCookies(request);
-        cart.addItem(productId, quantity);
-        cartService.saveCartToCookies(response, cart);
+        handleAddToCart(productId, request, response);
         return "redirect:/user/product/index";
+    }
+
+    @PostMapping("/cart/add-one")
+    public String addOne(@RequestParam Long productId,
+                            HttpServletRequest request, HttpServletResponse response) {
+        handleAddToCart(productId, request, response);
+        return "redirect:/user/product/cart";
     }
 
     @GetMapping("/cart")
@@ -75,6 +85,14 @@ public class UserProductController {
     public String removeFromCart(@RequestParam Long productId, HttpServletRequest request, HttpServletResponse response) {
         Cart cart = cartService.getCartFromCookies(request);
         cart.removeItem(productId);
+        cartService.saveCartToCookies(response, cart);
+        return "redirect:/user/product/cart";
+    }
+
+    @PostMapping("/cart/remove-one")
+    public String removeOneFromCart(@RequestParam Long productId, HttpServletRequest request, HttpServletResponse response) {
+        Cart cart = cartService.getCartFromCookies(request);
+        cart.removeOne(productId);
         cartService.saveCartToCookies(response, cart);
         return "redirect:/user/product/cart";
     }
