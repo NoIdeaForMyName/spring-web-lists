@@ -26,8 +26,8 @@
                 <tbody>
                 <tr th:each="cart_product : ${cart_products}">
                     <td th:text="${cart_product.product.productName}"></td>
-                    <td th:text="${cart_product.product.productPrice}"></td>
-                    <td th:text="${cart_product.quantity}"></td>
+                    <td class="product-price" th:text="${cart_product.product.productPrice}"></td>
+                    <td class="product-quantity" th:text="${cart_product.quantity}"></td>
 
                     <td>
                         <form th:action="@{/user/product/cart/add-one}" method="post" style="display:inline;">
@@ -46,6 +46,21 @@
                 </tr>
                 </tbody>
             </table>
+
+        <p id="price"></p>
+
+        <script>
+            let product_prices = document.getElementsByClassName("product-price");
+            let product_quantities = document.getElementsByClassName("product-quantity");
+            let sum = 0;
+            for (let i=0; i < product_prices.length; i++) {
+                console.log(product_prices[i]);
+                console.log(product_prices[i].textContent);
+                sum += Number(product_prices[i].textContent) * Number(product_quantities[i].textContent);
+            }
+            let summary = document.getElementById("price");
+            summary.innerText="Podsumowanie: " + sum + " PLN";
+        </script>
 
         <form th:action="@{/user/product/cart/clear}" method="post" class="mt-3">
             <button type="submit" class="btn btn-warning">Wyczyść Koszyk</button>

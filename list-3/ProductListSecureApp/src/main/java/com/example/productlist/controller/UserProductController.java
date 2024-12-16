@@ -74,7 +74,6 @@ public class UserProductController {
                 .filter(cartProduct -> cartProduct != null)
                 .toList();
 
-
         model.addAttribute("cart", cart);
         model.addAttribute("cart_products", cartProducts);
         return "user/product/cart";

@@ -38,8 +38,10 @@ public class Cart {
             if (item.getProductId().equals(productId)) {
                 if (item.getQuantity() > 1)
                     item.setQuantity(item.getQuantity()-1);
-                else
+                else {
                     items.remove(item);
+                    return;
+                }
             }
         }
     }
