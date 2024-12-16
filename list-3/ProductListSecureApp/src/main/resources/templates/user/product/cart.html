@@ -59,7 +59,7 @@
                 sum += Number(product_prices[i].textContent) * Number(product_quantities[i].textContent);
             }
             let summary = document.getElementById("price");
-            summary.innerText="Podsumowanie: " + sum + " PLN";
+            summary.innerText="Podsumowanie: " + Math.round(sum*100)/100 + " PLN";
         </script>
 
         <form th:action="@{/user/product/cart/clear}" method="post" class="mt-3">
