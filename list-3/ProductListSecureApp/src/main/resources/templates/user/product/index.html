@@ -29,7 +29,7 @@
                     <form th:action="@{/user/product/add-to-cart}" method="post" style="display:inline;">
                         <input type="hidden" name="productId" th:value="${product.productId}" />
                         <input type="hidden" name="quantity" value="1" />
-                        <button type="submit" class="btn btn-success btn-sm">Dodaj do Koszyka</button>
+                        <button type="submit" class="btn btn-success btn-sm" onclick="product_added()">Dodaj do Koszyka</button>
                     </form>
                     <a class="btn btn-primary" th:href="@{/user/product/{productId}/details(productId=${product.getProductId()})}">details</a>
                 </td>
@@ -37,6 +37,11 @@
             </tbody>
         </table>
     </div>
+    <script>
+        function product_added() {
+            window.alert("Product added to cart");
+        }
+    </script>
 </div>
 </body>
 </html>
